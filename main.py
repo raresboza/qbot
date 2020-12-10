@@ -18,5 +18,6 @@ async def on_message(message):
         await message.channel.send('Hello!')
 
 f = open("key.config","r")
+key = f.read()
 
-client.run(f.read())
+client.run(key)
