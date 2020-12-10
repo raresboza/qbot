@@ -17,4 +17,6 @@ async def on_message(message):
     if message.content.startswith('$'):
         await message.channel.send('Hello!')
 
-client.run("Nzg2NjUwNDUyNzE5Njk3OTQw.X9JfUw.w_44xWRgDLkdy0lPmFO8C8kqyuI")
+f = open("key.config","r")
+
+client.run(f.read())
