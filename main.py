@@ -18,7 +18,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.author.id == 145957053825810432
+    if message.author.id == 267709057219952640:
         if nr == 0:
             nr+=1
             await message.channel.send("Taci. {}".format(message.author.mention))
