@@ -14,6 +14,9 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    if message.author.id == 145957053825810432:
+        await message.channel.send('Taci.')
+
     if message.content.startswith('$'):
         await message.channel.send('Hello!')
 
