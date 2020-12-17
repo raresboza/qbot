@@ -9,6 +9,27 @@ bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'I
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
 
+@client.command()
+async def image(ctx):
+    chosen_image = get_imgur_url()
+    embed = discord.Embed(color=0xff69b4)
+    embed.set_image(url = chosen_image)
+    print(chosen_image)
+    await ctx.send(embed = embed)
+
+def get_imgur_url():
+    imgur_url = "http://i.imgur.com/"
+    ext = ".jpg"
+    r1 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r2 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r3 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r4 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r5 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+
+    code = r1 + r2 + r3 + r4 + r5
+    full_url = imgur_url + code + ext
+    return full_url
+
 @client.event
 async def on_message(message):
     global nr
