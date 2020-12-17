@@ -14,14 +14,11 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if (message.author.name == "Giobi"):
-        await message.channel.send('taci am zis')
-    
     if message.content.startswith('$'):
         await message.channel.send('Hello!')
 
     if 'gusi' in message.content.lower():
-        await message.channel.send('gusi')
+        await message.channel.send('Mevic?')
 
 f = open("key.config","r")
 key = f.read()
