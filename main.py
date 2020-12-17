@@ -3,21 +3,26 @@ from discord.ext import commands
 
 client = commands.Bot(command_prefix = '$')
 
-client = discord.Client()
-
-nr = 0
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
 
+@client.command(name='test')
+async def _test(ctx, args):
+    await ctx.send(args)
+    print("Haha")
+
+f = open("key.config","r")
+key = f.readline()
+
+nr = 0
 @client.event
-
-
 async def on_message(message):
     global nr
     if message.author == client.user:
         return
 
+#bully-on
     if message.author.id == 369108820313636865:
         if nr == 0:
             nr += 1
@@ -38,13 +43,11 @@ async def on_message(message):
     if f'<@!{241955978466164737}>' in message.content:
         await message.channel.send('Ce vrei ma cu terminatul ala')
 
-    if message.content.startswith('$'):
-        await message.channel.send('Hello!')
+#    if message.content.startswith('$'):
+#        await message.channel.send('Hello!')
 
+#faza
     if 'gusi' in message.content.lower():
         await message.channel.send('Mevic?')
-
-f = open("key.config","r")
-key = f.read()
 
 client.run(key)
