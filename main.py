@@ -4,19 +4,11 @@ from discord.ext import commands
 
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
+
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
 
-@client.command(name='test')
-async def _test(ctx, args):
-    await ctx.send(args)
-    print("Haha")
-
-f = open("key.config","r")
-key = f.readline()
-#369108820313636865
-nr = 0
 @client.event
 async def on_message(message):
     global nr
@@ -36,4 +28,9 @@ async def on_message(message):
         await message.channel.send('Mevic?')
     await client.process_commands(message)
 
+#aquire config data
+f = open("key.config","r")
+key = f.readline()
+
+#run bot
 client.run(key)
