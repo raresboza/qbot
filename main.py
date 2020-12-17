@@ -18,9 +18,9 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.author.id == 267709057219952640:
+    if message.author.id == 369108820313636865:
         if nr == 0:
-            nr+=1
+            nr += 1
             await message.channel.send("Taci. {}".format(message.author.mention))
         elif nr == 1:
             nr += 1
@@ -31,6 +31,12 @@ async def on_message(message):
         else:
             nr += 1
             await message.channel.send('eu nu mai incerc cu asta @everyone')
+
+    if message.channel.id == 400674062004781056 :
+        await message.channel.send('Pai si tu crezi ca esti amuzant ')
+
+    if f'<@!{241955978466164737}>' in message.content:
+        await message.channel.send('Ce vrei ma cu terminatul ala')
 
     if message.content.startswith('$'):
         await message.channel.send('Hello!')
