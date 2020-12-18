@@ -27,7 +27,7 @@ async def _weather(ctx, args=""):
             await ctx.send("In our gargantuos data base the city of {} wasnt found".format(city))
         else:
             lat, lon = citiesCoord[city]
-            api_key = "28442b403d7c53f376bc6da1aae7fabb"
+            api_key = "nan"
             url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
 
             response = requests.get(url)
@@ -58,19 +58,6 @@ async def image(ctx):
     embed.set_image(url = chosen_image)
     print(chosen_image)
     await ctx.send(embed = embed)
-
-def get_imgur_url():
-    imgur_url = "http://i.imgur.com/"
-    ext = ".jpg"
-    r1 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r2 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r3 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r4 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r5 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-
-    code = r1 + r2 + r3 + r4 + r5
-    full_url = imgur_url + code + ext
-    return full_url
 
 @client.event
 async def on_message(message):
@@ -110,6 +97,19 @@ def getTempEmoji(temp: float):
         return ":hot_face:"
     else:
         return ":volcano:"
+
+def get_imgur_url():
+    imgur_url = "http://i.imgur.com/"
+    ext = ".jpg"
+    r1 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r2 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r3 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r4 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    r5 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+
+    code = r1 + r2 + r3 + r4 + r5
+    full_url = imgur_url + code + ext
+    return full_url
 
 #run bot
 client.run(key)
