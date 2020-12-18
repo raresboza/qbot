@@ -7,7 +7,7 @@ from datetime import datetime
 
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
-
+imgurCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 @client.command("weather")
 async def _weather(ctx, args=""):
     if len(args.split()) != 1:
@@ -77,18 +77,18 @@ def getTempEmoji(temp: float):
     else:
         return ":volcano:"
 
+
 def get_imgur_url():
     imgur_url = "http://i.imgur.com/"
     ext = ".jpg"
-    r1 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r2 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r3 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r4 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    r5 = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    code = ""
 
-    code = r1 + r2 + r3 + r4 + r5
+    for _ in range(0, 5):
+        code += random.choice(imgurCharacters)
+
     full_url = imgur_url + code + ext
     return full_url
+
 
 #run bot
 client.run(discord_key)
