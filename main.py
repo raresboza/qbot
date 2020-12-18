@@ -27,7 +27,7 @@ async def _weather(ctx, args=""):
             await ctx.send("In our gargantuos data base the city of {} wasnt found".format(city))
         else:
             lat, lon = citiesCoord[city]
-            api_key = "nan"
+            api_key = weather_key
             url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
 
             response = requests.get(url)
@@ -81,6 +81,7 @@ async def on_message(message):
 #aquire config data
 f = open("key.config","r")
 key = f.readline()
+weather_key = f.readline()
 
 #helper functions
 
