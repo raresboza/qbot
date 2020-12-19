@@ -1,16 +1,15 @@
 import requests
-import json
 import discord
 import hashlib
 import random
+import helper_functions as func
+import json
 from discord.ext import commands
-from datetime import datetime
 from geopy.geocoders import Nominatim
 from pyowm.owm import OWM
 
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
-imgurCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 
 
@@ -28,7 +27,7 @@ async def _weather(ctx, address=""):
 
     #data = json.loads(response.text)
 
-    #await ctx.send(process_weather_data(data, location))
+    #await ctx.send(func.process_weather_data(data, location))
 
 @client.event
 async def on_ready():
@@ -37,7 +36,7 @@ async def on_ready():
 @client.command()
 async def image(ctx):
     while True:
-        chosen_image = get_imgur_url()
+        chosen_image = func.get_imgur_url()
         print(chosen_image)
 
         response = requests.get(chosen_image, stream=True)
@@ -85,50 +84,6 @@ config = open("key.config","r")
 discord_key = config.readline()
 weather_key = config.readline()
 config.close()
-
-#helper functions
-
-def getTempEmoji(temp: float):
-    if temp < -10:
-        return ":cold_face:"
-    elif temp < 0:
-        return ":snowman2:"
-    elif temp < 15:
-        return ":leaves:"
-    elif temp < 25:
-        return ":beach:"
-    elif temp < 35:
-        return ":hot_face:"
-    else:
-        return ":volcano:"
-
-def process_weather_data(data: json, location: str):
-
-    temp = data["temp"]
-    temperatureEmoji = getTempEmoji(temp)
-
-    #print(data)
-
-    sr   = data["sunrise"]
-    ss   = data["sunset"]
-
-    sunrise = datetime.utcfromtimestamp(sr).strftime('%H:%M')
-    sunset  = datetime.utcfromtimestamp(ss).strftime('%H:%M')
-
-    return "Current weather in {city}: {temp} °C {temoji} with a sunrise :sunrise: at {sunrise} and a sunset :city_sunset: at {sunset}"\
-    .format(city = location, temp = temp, temoji = temperatureEmoji, sunrise = sunrise, sunset = sunset)
-
-def get_imgur_url():
-    imgur_url = "http://i.imgur.com/"
-    ext = ".jpg"
-    code = ""
-
-    for _ in range(0, 5):
-        code += random.choice(imgurCharacters)
-
-    full_url = imgur_url + code + ext
-    return full_url
-
 
 #run bot
 geolocator = Nominatim(user_agent="discord-bot")
