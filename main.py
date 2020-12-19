@@ -5,14 +5,17 @@ import random
 from discord.ext import commands
 from datetime import datetime
 from geopy.geocoders import Nominatim
+from pyowm.owm import OWM
 
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
 imgurCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+
+
 @client.command("weather")
 async def _weather(ctx, address=""):
-    await ctx.send("Currently unavailable :frowning2:")
-    return
+    await ctx.send("This feature is currently unavailable :(")
     #geocodingz
     location = geolocator.geocode(address)
 
@@ -20,29 +23,11 @@ async def _weather(ctx, address=""):
     print((location.latitude, location.longitude))
 
     #open weather map
-    lat, lon = location.latitude, location.longitude
-    api_key = weather_key
-    url_owm = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={key}".format(lat = lat, lon = lon, key = geo_key)
+    one_call = mgr.one_call(lat = location.latitude,lon = location.longitude)
 
-    response = requests.get(url_owm)
-    print(response.text)
+    #data = json.loads(response.text)
 
-    data = json.loads(response.text)["current"]
-    print(data)
-
-    temp = data["temp"]
-    temperatureEmoji = getTempEmoji(temp)
-
-    print(data)
-
-    sr   = data["sunrise"]
-    ss   = data["sunset"]
-
-    sunrise = datetime.utcfromtimestamp(sr).strftime('%H:%M')
-    sunset  = datetime.utcfromtimestamp(ss).strftime('%H:%M')
-
-    await ctx.send("Current weather in {city}: {temp} °C {temoji} with a sunrise :sunrise: at {sunrise} and a sunset :city_sunset: at {sunset}"
-        .format(city = city, temp = temp, temoji = temperatureEmoji, sunrise = sunrise, sunset = sunset))
+    #await ctx.send(process_weather_data(data, location))
 
 @client.event
 async def on_ready():
@@ -66,7 +51,7 @@ async def on_message(message):
         await message.channel.send(random.choice(bullyMagnet))
 
     if message.channel.id == 400674062004781056:
-        await message.channel.send('Pai si tu crezi ca esti amuzant ')
+        await message.channel.send('Pai si tu crezi ca esti amuzant?')
 
     if f'<@!{241955978466164737}>' in message.content:
         await message.channel.send('Ce vrei ma cu terminatul ala')
@@ -79,7 +64,6 @@ async def on_message(message):
 config = open("key.config","r")
 discord_key = config.readline()
 weather_key = config.readline()
-geo_key = config.readline()
 config.close()
 
 #helper functions
@@ -98,6 +82,21 @@ def getTempEmoji(temp: float):
     else:
         return ":volcano:"
 
+def process_weather_data(data: json, location: str):
+
+    temp = data["temp"]
+    temperatureEmoji = getTempEmoji(temp)
+
+    #print(data)
+
+    sr   = data["sunrise"]
+    ss   = data["sunset"]
+
+    sunrise = datetime.utcfromtimestamp(sr).strftime('%H:%M')
+    sunset  = datetime.utcfromtimestamp(ss).strftime('%H:%M')
+
+    return "Current weather in {city}: {temp} °C {temoji} with a sunrise :sunrise: at {sunrise} and a sunset :city_sunset: at {sunset}"\
+    .format(city = location, temp = temp, temoji = temperatureEmoji, sunrise = sunrise, sunset = sunset)
 
 def get_imgur_url():
     imgur_url = "http://i.imgur.com/"
@@ -113,5 +112,8 @@ def get_imgur_url():
 
 #run bot
 geolocator = Nominatim(user_agent="discord-bot")
+print(weather_key)
+owm = OWM(weather_key)
+mgr = owm.weather_manager()
 
 client.run(discord_key)
