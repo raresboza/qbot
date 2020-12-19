@@ -4,24 +4,45 @@ import discord
 import random
 from discord.ext import commands
 from datetime import datetime
+from geopy.geocoders import Nominatim
 
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
 
 @client.command("weather")
-async def _weather(ctx, args=""):
-    if len(args.split()) != 1:
-        await ctx.send("Weather command excepts only one argument!:grimacing:")
-    else:
-        location = args.lower()
+async def _weather(ctx, address=""):
+    await ctx.send("Currently unavailable :frowning2:")
+    return
+    #geocodingz
+    location = geolocator.geocode(address)
 
-        #geocoding
-        url_geo = "https://maps.googleapis.com/maps/api/geocode/json?address={addr}+Mountain+View,+CA&key={key}".format(addr = location, key = geo_key)
+    print(location.address)
+    print((location.latitude, location.longitude))
 
-        response = requests.get(url_geo)
-        print(json.loads(response.text))
+    #open weather map
+    lat, lon = location.latitude, location.longitude
+    api_key = weather_key
+    url_owm = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={key}".format(lat = lat, lon = lon, key = geo_key)
 
+    response = requests.get(url_owm)
+    print(response.text)
 
+    data = json.loads(response.text)["current"]
+    print(data)
+
+    temp = data["temp"]
+    temperatureEmoji = getTempEmoji(temp)
+
+    print(data)
+
+    sr   = data["sunrise"]
+    ss   = data["sunset"]
+
+    sunrise = datetime.utcfromtimestamp(sr).strftime('%H:%M')
+    sunset  = datetime.utcfromtimestamp(ss).strftime('%H:%M')
+
+    await ctx.send("Current weather in {city}: {temp} °C {temoji} with a sunrise :sunrise: at {sunrise} and a sunset :city_sunset: at {sunset}"
+        .format(city = city, temp = temp, temoji = temperatureEmoji, sunrise = sunrise, sunset = sunset))
 
 @client.event
 async def on_ready():
@@ -91,4 +112,6 @@ def get_imgur_url():
     return full_url
 
 #run bot
+geolocator = Nominatim(user_agent="discord-bot")
+
 client.run(discord_key)
