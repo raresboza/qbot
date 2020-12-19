@@ -1,6 +1,7 @@
 import requests
 import json
 import discord
+import hashlib
 import random
 from discord.ext import commands
 from datetime import datetime
@@ -9,8 +10,8 @@ from pyowm.owm import OWM
 
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
-imgurCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
+imgurCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 
 
 @client.command("weather")
@@ -35,11 +36,30 @@ async def on_ready():
 
 @client.command()
 async def image(ctx):
-    chosen_image = get_imgur_url()
+    while True:
+        chosen_image = get_imgur_url()
+        print(chosen_image)
+
+        response = requests.get(chosen_image, stream=True)
+        m = hashlib.sha256()
+        m.update(response.content)
+
+        if m.hexdigest() != imgurNotFound:
+            print(m.hexdigest())
+            print(imgurNotFound)
+            break
+
+    """
+    If you want to download the picture:
+        if response.status_code == 200:
+        with open('img.png', 'wb') as f:
+            for chunk in response:
+                f.write(chunk)
+    """
+
     embed = discord.Embed(color=0xff69b4)
-    embed.set_image(url = chosen_image)
-    print(chosen_image)
-    await ctx.send(embed = embed)
+    embed.set_image(url=chosen_image)
+    await ctx.send(embed=embed)
 
 @client.event
 async def on_message(message):
