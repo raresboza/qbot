@@ -11,7 +11,7 @@ from pyowm.owm import OWM
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
-
+imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
 
 @client.command("weather")
 async def _weather(ctx, address=""):
@@ -43,7 +43,7 @@ async def image(ctx):
         m = hashlib.sha256()
         m.update(response.content)
 
-        if m.hexdigest() != imgurNotFound:
+        if m.hexdigest() != imgurNotFound and m.hexdigest() != imgurSecondError:
             print(m.hexdigest())
             print(imgurNotFound)
             break

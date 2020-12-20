@@ -7,8 +7,8 @@ def get_imgur_url():
     imgur_url = "http://i.imgur.com/"
     ext = ".jpg"
     code = ""
-
-    for _ in range(0, 5):
+    limit = random.choice([5,6,7])
+    for _ in range(0, limit):
         code += random.choice(imgurCharacters)
 
     full_url = imgur_url + code + ext
