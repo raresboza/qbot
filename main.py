@@ -1,15 +1,18 @@
 import requests
-import json
 import discord
+import hashlib
 import random
+import helper_functions as func
+import json
 from discord.ext import commands
-from datetime import datetime
 from geopy.geocoders import Nominatim
 from pyowm.owm import OWM
 
 client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
-imgurCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
+imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
 
 @client.command("weather")
 async def _weather(ctx, address=""):
@@ -25,7 +28,7 @@ async def _weather(ctx, address=""):
 
     #data = json.loads(response.text)
 
-    #await ctx.send(process_weather_data(data, location))
+    #await ctx.send(func.process_weather_data(data, location))
 
 @client.event
 async def on_ready():
@@ -33,11 +36,30 @@ async def on_ready():
 
 @client.command()
 async def image(ctx):
-    chosen_image = get_imgur_url()
+    while True:
+        chosen_image = func.get_imgur_url()
+        print(chosen_image)
+
+        response = requests.get(chosen_image, stream=True)
+        m = hashlib.sha256()
+        m.update(response.content)
+
+        if m.hexdigest() != imgurNotFound and m.hexdigest() != imgurSecondError:
+            print(m.hexdigest())
+            print(imgurNotFound)
+            break
+
+    """
+    If you want to download the picture:
+        if response.status_code == 200:
+        with open('img.png', 'wb') as f:
+            for chunk in response:
+                f.write(chunk)
+    """
+
     embed = discord.Embed(color=0xff69b4)
-    embed.set_image(url = chosen_image)
-    print(chosen_image)
-    await ctx.send(embed = embed)
+    embed.set_image(url=chosen_image)
+    await ctx.send(embed=embed)
 
 @client.event
 async def on_message(message):
@@ -63,50 +85,6 @@ config = open("key.config","r")
 discord_key = config.readline()
 weather_key = config.readline()
 config.close()
-
-#helper functions
-
-def getTempEmoji(temp: float):
-    if temp < -10:
-        return ":cold_face:"
-    elif temp < 0:
-        return ":snowman2:"
-    elif temp < 15:
-        return ":leaves:"
-    elif temp < 25:
-        return ":beach:"
-    elif temp < 35:
-        return ":hot_face:"
-    else:
-        return ":volcano:"
-
-def process_weather_data(data: json, location: str):
-
-    temp = data["temp"]
-    temperatureEmoji = getTempEmoji(temp)
-
-    #print(data)
-
-    sr   = data["sunrise"]
-    ss   = data["sunset"]
-
-    sunrise = datetime.utcfromtimestamp(sr).strftime('%H:%M')
-    sunset  = datetime.utcfromtimestamp(ss).strftime('%H:%M')
-
-    return "Current weather in {city}: {temp} °C {temoji} with a sunrise :sunrise: at {sunrise} and a sunset :city_sunset: at {sunset}"\
-    .format(city = location, temp = temp, temoji = temperatureEmoji, sunrise = sunrise, sunset = sunset)
-
-def get_imgur_url():
-    imgur_url = "http://i.imgur.com/"
-    ext = ".jpg"
-    code = ""
-
-    for _ in range(0, 5):
-        code += random.choice(imgurCharacters)
-
-    full_url = imgur_url + code + ext
-    return full_url
-
 
 #run bot
 geolocator = Nominatim(user_agent="discord-bot")
