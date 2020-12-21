@@ -9,7 +9,7 @@ from geopy.geocoders import Nominatim
 from pyowm.owm import OWM
 
 client = commands.Bot(command_prefix = '$')
-bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
+bullyMagnet = ['De ce incerci?', 'Ba?','Voi il vedeti pe asta ba @everyone?', 'Iesi acasa!', 'Iesi.', 'Nu te-ai futut cu Andone nu?']
 
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
@@ -88,7 +88,6 @@ config.close()
 
 #run bot
 geolocator = Nominatim(user_agent="discord-bot")
-print(weather_key)
 owm = OWM(weather_key)
 mgr = owm.weather_manager()
 
