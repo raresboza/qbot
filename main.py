@@ -11,8 +11,6 @@ client = commands.Bot(command_prefix = '$')
 bullyMagnet = ['De ce incerci?', 'Ba ?','Voi il vedeti pe asta ba @everyone', 'Iesi acasa', 'Iesi', 'Nu te-ai futut cu Andone nu?']
 imgurCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-
-
 @client.command("weather")
 async def _weather(ctx, address=""):
     await ctx.send("This feature is currently unavailable :(")
