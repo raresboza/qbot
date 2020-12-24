@@ -28,5 +28,6 @@ def getHottestPost(sub: str):
 
     print(top_post[0].url)
 
+
 if __name__ == "__main__":
     getHottestPost("prequelmemes")
