@@ -37,7 +37,7 @@ def getRandomPost(sub: str):
     if len(submissions) == 0:
         raise Exception("Couldn't find any submissions")
 
-    random_post = radom.choice(list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions)))
+    random_post = random.choice(list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions)))
 
     return random_post.url
 

@@ -16,7 +16,7 @@ imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb
 imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
 
 @client.command("hottest")
-async def _subreddit(ctx, subreddit=""):
+async def _hottest(ctx, subreddit: str):
     if len(subreddit.split()) != 1:
         await ctx.send("Command should only contain an argument")
         return
@@ -29,6 +29,18 @@ async def _subreddit(ctx, subreddit=""):
     embed.set_author(name="Requested by " + ctx.message.author.name)
     await ctx.send(embed=embed)
 
+@client.command("randpost")
+async def _randpost(ctx, subreddit: str):
+    if len(subreddit.split()) != 1:
+        await ctx.send("Command should only contain an argument")
+        return
+    url = reddit_func.getHottestPost(subreddit)
+    print(url)
+    embed = discord.Embed(color=0x00ced1,
+                          description="A random post from the latest content in " + subreddit)
+    embed.set_image(url=url)
+    embed.set_author(name="Requested by " + ctx.message.author.name)
+    await ctx.send(embed=embed)
 @client.command("weather")
 async def _weather(ctx, address=""):
 
