@@ -4,7 +4,6 @@ import hashlib
 import random
 import helper_functions as func
 import json
-import praw
 from discord.ext import commands
 from geopy.geocoders import Nominatim
 from pyowm.owm import OWM
@@ -15,9 +14,21 @@ bullyMagnet = ['De ce incerci?', 'Ba?','Voi il vedeti pe asta ba @everyone?', 'I
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
 
+@client.command("subreddit")
+async def _subreddit(ctx, subreddit=""):
+    if len(subreddit.split()) != 1:
+        await ctx.send("Command should only contain an argument")
+        return
+    subr = reddit.subreddit(subreddit)
+
+    print(subr.display_name)
+    print(subr.title)
+    print(subr.description)
+
 @client.command("weather")
 async def _weather(ctx, address=""):
     await ctx.send("This feature is currently unavailable :(")
+    return
     #geocodingz
     location = geolocator.geocode(address)
 
@@ -87,24 +98,9 @@ discord_key = config.readline()
 weather_key = config.readline()
 config.close()
 
-redditconfig = open("reddit.config", "r")
-client_id = redditconfig.readline()
-client_secret = redditconfig.readline()
-username = redditconfig.readline()
-password = redditconfig.readline()
-
 #run bot
 geolocator = Nominatim(user_agent="discord-bot")
 owm = OWM(weather_key)
 mgr = owm.weather_manager()
-
-reddit = praw.Reddit(client_id=client_id,
-                     client_secret=client_secret,
-                     password=password,
-                     user_agent="discord bot",
-                     username=username)
-
-reddit.read_only = True
-print(reddit.user.me())
 
 client.run(discord_key)

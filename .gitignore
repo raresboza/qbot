@@ -1,5 +1,6 @@
-# Discord Key
+# Config
 key.config
+reddit.config
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
