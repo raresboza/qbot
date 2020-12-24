@@ -4,6 +4,7 @@ import hashlib
 import random
 import helper_functions as func
 import json
+import praw
 from discord.ext import commands
 from geopy.geocoders import Nominatim
 from pyowm.owm import OWM
@@ -86,9 +87,24 @@ discord_key = config.readline()
 weather_key = config.readline()
 config.close()
 
+redditconfig = open("reddit.config", "r")
+client_id = redditconfig.readline()
+client_secret = redditconfig.readline()
+username = redditconfig.readline()
+password = redditconfig.readline()
+
 #run bot
 geolocator = Nominatim(user_agent="discord-bot")
 owm = OWM(weather_key)
 mgr = owm.weather_manager()
+
+reddit = praw.Reddit(client_id=client_id,
+                     client_secret=client_secret,
+                     password=password,
+                     user_agent="discord bot",
+                     username=username)
+
+reddit.read_only = True
+print(reddit.user.me())
 
 client.run(discord_key)
