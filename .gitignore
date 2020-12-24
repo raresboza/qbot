@@ -1,6 +1,5 @@
 # Config
-key.config
-reddit.config
+*.config
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
