@@ -17,6 +17,8 @@ reddit = praw.Reddit(client_id=client_id,
                      username= username,
                      password= password)
 
+sys_random = random.SystemRandom()
+
 def getHottestPost(sub: str):
     subreddit = reddit.subreddit(sub)
 
@@ -32,12 +34,12 @@ def getHottestPost(sub: str):
 def getRandomPost(sub: str):
     subreddit = reddit.subreddit(sub)
 
-    submissions = subreddit.hot(limit=500)
+    random_cap = random.randrange(start=0, stop=100)
+    submissions = subreddit.hot(limit=random_cap)
 
-    if len(submissions) == 0:
-        raise Exception("Couldn't find any submissions")
+    #throw exceptions
 
-    random_post = random.choice(list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions)))
+    random_post = list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions))[-1]
 
     return random_post.url
 

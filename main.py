@@ -34,7 +34,7 @@ async def _randpost(ctx, subreddit: str):
     if len(subreddit.split()) != 1:
         await ctx.send("Command should only contain an argument")
         return
-    url = reddit_func.getHottestPost(subreddit)
+    url = reddit_func.getRandomPost(subreddit)
     print(url)
     embed = discord.Embed(color=0x00ced1,
                           description="A random post from the latest content in " + subreddit)
