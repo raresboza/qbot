@@ -1,5 +1,6 @@
 import praw
 import re
+import random.choice
 
 redditconfig = open("reddit.config", "r")
 client_id = redditconfig.readline().rstrip('\n')
@@ -26,7 +27,19 @@ def getHottestPost(sub: str):
     if len(top_post) == 0:
         raise Exception("Couldn't find any submissions")
 
-    print(top_post[0].url)
+    return top_post[0].url
+
+def getRandomPost(sub: str):
+    subreddit = reddit.subreddit(sub)
+
+    submissions = subreddit.hot(limit=500)
+
+    if len(submissions) == 0:
+        raise Exception("Couldn't find any submissions")
+
+    random_post = radom.choice(list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions)))
+
+    return random_post.url
 
 if __name__ == "__main__":
     getHottestPost("prequelmemes")
