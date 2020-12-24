@@ -10,11 +10,11 @@ token = redditconfig.readline().rstrip('\n')
 
 
 reddit = praw.Reddit(client_id=client_id,
-                         client_secret=client_secret,
-                         refresh_token= token,
-                         user_agent= "Discord bot!",
-                         username= username,
-                         password= password)
+                     client_secret=client_secret,
+                     refresh_token= token,
+                     user_agent= "Discord bot!",
+                     username= username,
+                     password= password)
 
 def getHottestPost(sub: str):
     subreddit = reddit.subreddit(sub)
@@ -27,6 +27,7 @@ def getHottestPost(sub: str):
         raise Exception("Couldn't find any submissions")
 
     print(top_post[0].url)
+    return top_post[0].url
 
 if __name__ == "__main__":
     getHottestPost("prequelmemes")
