@@ -22,7 +22,6 @@ async def _subreddit(ctx, subreddit=""):
 
 @client.command("weather")
 async def _weather(ctx, address=""):
-    #de fixat
 
     #geocodingz
     location = geolocator.geocode(address)
@@ -31,9 +30,13 @@ async def _weather(ctx, address=""):
     print((location.latitude, location.longitude))
 
     #open weather map
-    one_call = mgr.one_call(lat = location.latitude,lon = location.longitude)
+    url = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={appid}&units=metric"\
+            .format(lat=location.latitude, lon=location.longitude, appid=weather_key)
 
-    #await ctx.send(func.process_weather_data(data, location))
+    response = requests.get(url)
+    data = json.loads(response.text)["current"]
+
+    await ctx.send(func.process_weather_data(data, location)) #de schimbat astfel incat sa nu arate gmt time-ul
 
 @client.event
 async def on_ready():
@@ -87,8 +90,8 @@ async def on_message(message):
 
 #aquire config data
 config = open("key.config","r")
-discord_key = config.readline()[:-1]
-weather_key = config.readline()[:-1]
+discord_key = config.readline().rstrip('\n')
+weather_key = config.readline().rstrip('\n')
 config.close()
 
 #run bot
