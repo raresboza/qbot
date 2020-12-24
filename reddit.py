@@ -1,4 +1,5 @@
 import praw
+import re
 
 redditconfig = open("reddit.config", "r")
 client_id = redditconfig.readline()[:-1]
@@ -15,4 +16,17 @@ reddit = praw.Reddit(client_id=client_id,
                          username= username,
                          password= password)
 
-print(reddit.auth.scopes())
+def getHottestPost(sub: str):
+    subreddit = reddit.subreddit(sub)
+
+    submissions = subreddit.hot(limit=5)
+
+    top_post = list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions))
+
+    if len(top_post) == 0
+        raise Exception("Couldn't find any submissions")
+    
+    print(top_post[0].url)
+
+if __name__ == "__main__":
+    getHottestPost("prequelmemes")

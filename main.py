@@ -22,8 +22,7 @@ async def _subreddit(ctx, subreddit=""):
 
 @client.command("weather")
 async def _weather(ctx, address=""):
-    #await ctx.send("This feature is currently unavailable :(")
-    #return
+    #de fixat
 
     #geocodingz
     location = geolocator.geocode(address)
@@ -34,9 +33,6 @@ async def _weather(ctx, address=""):
     #open weather map
     one_call = mgr.one_call(lat = location.latitude,lon = location.longitude)
 
-
-    data = json.loads(response.text)
-    print(data)
     #await ctx.send(func.process_weather_data(data, location))
 
 @client.event
