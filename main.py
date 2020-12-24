@@ -22,8 +22,9 @@ async def _subreddit(ctx, subreddit=""):
 
 @client.command("weather")
 async def _weather(ctx, address=""):
-    await ctx.send("This feature is currently unavailable :(")
-    return
+    #await ctx.send("This feature is currently unavailable :(")
+    #return
+
     #geocodingz
     location = geolocator.geocode(address)
 
@@ -33,8 +34,9 @@ async def _weather(ctx, address=""):
     #open weather map
     one_call = mgr.one_call(lat = location.latitude,lon = location.longitude)
 
-    #data = json.loads(response.text)
 
+    data = json.loads(response.text)
+    print(data)
     #await ctx.send(func.process_weather_data(data, location))
 
 @client.event
@@ -89,8 +91,8 @@ async def on_message(message):
 
 #aquire config data
 config = open("key.config","r")
-discord_key = config.readline()
-weather_key = config.readline()
+discord_key = config.readline()[:-1]
+weather_key = config.readline()[:-1]
 config.close()
 
 #run bot

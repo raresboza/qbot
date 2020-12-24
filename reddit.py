@@ -1,11 +1,11 @@
 import praw
 
 redditconfig = open("reddit.config", "r")
-client_id = redditconfig.readline()
-client_secret = redditconfig.readline()
-username = redditconfig.readline()
-password = redditconfig.readline()
-token = redditconfig.readline()
+client_id = redditconfig.readline()[:-1]
+client_secret = redditconfig.readline()[:-1]
+username = redditconfig.readline()[:-1]
+password = redditconfig.readline()[:-1]
+token = redditconfig.readline()[:-1]
 
 
 reddit = praw.Reddit(client_id=client_id,
