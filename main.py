@@ -2,6 +2,7 @@ import requests
 import discord
 import hashlib
 import random
+import reddit as reddit_func
 import helper_functions as func
 import json
 from discord.ext import commands
@@ -14,11 +15,19 @@ bullyMagnet = ['De ce incerci?', 'Ba?','Voi il vedeti pe asta ba @everyone?', 'I
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
 
-@client.command("subreddit")
+@client.command("hottest")
 async def _subreddit(ctx, subreddit=""):
     if len(subreddit.split()) != 1:
         await ctx.send("Command should only contain an argument")
         return
+
+    url = reddit_func.getHottestPost(subreddit)
+    print(url)
+    embed = discord.Embed(color=0xff69b4,
+                          description="The hottest post at request time from " + subreddit)
+    embed.set_image(url=url)
+    embed.set_author(name="Requested by " + ctx.message.author.name)
+    await ctx.send(embed=embed)
 
 @client.command("weather")
 async def _weather(ctx, address=""):
