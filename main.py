@@ -23,7 +23,7 @@ async def _subreddit(ctx, subreddit=""):
 
     url = reddit_func.getHottestPost(subreddit)
     print(url)
-    embed = discord.Embed(color=0xff69b4,
+    embed = discord.Embed(color=0x00ced1,
                           description="The hottest post at request time from " + subreddit)
     embed.set_image(url=url)
     embed.set_author(name="Requested by " + ctx.message.author.name)
