@@ -19,11 +19,6 @@ async def _subreddit(ctx, subreddit=""):
     if len(subreddit.split()) != 1:
         await ctx.send("Command should only contain an argument")
         return
-    subr = reddit.subreddit(subreddit)
-
-    print(subr.display_name)
-    print(subr.title)
-    print(subr.description)
 
 @client.command("weather")
 async def _weather(ctx, address=""):
