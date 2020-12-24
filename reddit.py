@@ -1,6 +1,6 @@
 import praw
 import re
-import random.choice
+import random
 
 redditconfig = open("reddit.config", "r")
 client_id = redditconfig.readline().rstrip('\n')
