@@ -1,6 +1,7 @@
 import praw
 import re
 import random
+import datetime
 
 redditconfig = open("reddit.config", "r")
 client_id = redditconfig.readline().rstrip('\n')
@@ -41,12 +42,19 @@ def getRandomPost(sub: str,  isNSFW: int):
     if subreddit.over18 and not isNSFW:
         raise Exception("This subreddit is NSFW")
 
-    random_cap = random.randrange(start=0, stop=100)
+    random_cap = random.randrange(start=0, stop=500)
+    #print(random_cap)
+
+    tstart = datetime.datetime.now()
+
     submissions = subreddit.hot(limit=random_cap)
 
-    #throw exceptions
-
     random_post = list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions))[-1]
+
+    tend = datetime.datetime.now()
+
+    duration = (tend - tstart).total_seconds()
+    print("Request took {} seconds for searching {} posts".format(duration, random_cap));
 
     return random_post.url
 

@@ -43,7 +43,7 @@ async def _randpost(ctx, subreddit: str):
 
     isNSFW = ctx.channel.is_nsfw()
     try:
-        url = reddit_func.getHottestPost(subreddit, isNSFW)
+        url = reddit_func.getRandomPost(subreddit, isNSFW)
     except Exception as errorMessage:
         await ctx.send(errorMessage)
     print(url)
