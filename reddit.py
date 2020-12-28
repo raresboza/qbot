@@ -19,8 +19,12 @@ reddit = praw.Reddit(client_id=client_id,
 
 sys_random = random.SystemRandom()
 
-def getHottestPost(sub: str):
+def getHottestPost(sub: str, isNSFW: int):
     subreddit = reddit.subreddit(sub)
+
+    if subreddit.over18 and not isNSFW:
+        raise Exception("This subreddit is NSFW")
+        return
 
     submissions = subreddit.hot(limit=5)
 
@@ -31,8 +35,11 @@ def getHottestPost(sub: str):
 
     return top_post[0].url
 
-def getRandomPost(sub: str):
+def getRandomPost(sub: str,  isNSFW: int):
     subreddit = reddit.subreddit(sub)
+
+    if subreddit.over18 and not isNSFW:
+        raise Exception("This subreddit is NSFW")
 
     random_cap = random.randrange(start=0, stop=100)
     submissions = subreddit.hot(limit=random_cap)
@@ -42,6 +49,8 @@ def getRandomPost(sub: str):
     random_post = list(filter((lambda sub: not sub.stickied and re.findall("(.jpg|.png)$" ,sub.url)), submissions))[-1]
 
     return random_post.url
+
+
 
 if __name__ == "__main__":
     getHottestPost("prequelmemes")

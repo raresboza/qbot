@@ -21,8 +21,14 @@ async def _hottest(ctx, subreddit: str):
         await ctx.send("Command should only contain an argument")
         return
 
-    url = reddit_func.getHottestPost(subreddit)
+    isNSFW = ctx.channel.is_nsfw()
+
+    try:
+        url = reddit_func.getHottestPost(subreddit, isNSFW)
+    except Exception as errorMessage:
+        await ctx.send(errorMessage)
     print(url)
+
     embed = discord.Embed(color=0x00ced1,
                           description="The hottest post at request time from " + subreddit)
     embed.set_image(url=url)
@@ -34,8 +40,14 @@ async def _randpost(ctx, subreddit: str):
     if len(subreddit.split()) != 1:
         await ctx.send("Command should only contain an argument")
         return
-    url = reddit_func.getRandomPost(subreddit)
+
+    isNSFW = ctx.channel.is_nsfw()
+    try:
+        url = reddit_func.getHottestPost(subreddit, isNSFW)
+    except Exception as errorMessage:
+        await ctx.send(errorMessage)
     print(url)
+
     embed = discord.Embed(color=0x00ced1,
                           description="A random post from the latest content in " + subreddit)
     embed.set_image(url=url)
