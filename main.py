@@ -35,6 +35,8 @@ async def _movies(ctx, *args):
         elif response["total_results"] == 1:
             movie = mv.get_details(results[0]["id"])
             await ctx.send(movie)
+
+
         else:
             await ctx.send(json.dump(results))
 
@@ -89,12 +91,16 @@ async def _randpost(ctx, subreddit: str):
     embed.set_author(name="Requested by " + ctx.message.author.name)
     await ctx.send(embed=embed)
 @client.command("weather")
-async def _weather(ctx, address=""):
+async def _weather(ctx, *address):
+    if len(address) == 0:
+        await ctx.send("No location specified")
+        return
 
+    addr = " ".join(address)
     #geocodingz
-    location = geolocator.geocode(address)
+    location = geolocator.geocode(addr)
 
-    print("--> Address {} was found at coordinates {} LAT, {} LON ".format(address, location.latitude, location.longitude))
+    print("--> Address {} was found at coordinates {} LAT, {} LON ".format(addr, location.latitude, location.longitude))
 
     #open weather map
     url = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={appid}&units=metric"\
