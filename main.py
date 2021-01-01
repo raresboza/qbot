@@ -83,7 +83,7 @@ async def _hottest(ctx, subreddit = ""):
                           title="URL: " + url)
     embed.set_image(url=url)
     embed.set_author(name="Requested by " + ctx.message.author.name)
-
+    await ctx.send(embed=embed)
 
 @client.command("randpost")
 async def _randpost(ctx, subreddit: str):
