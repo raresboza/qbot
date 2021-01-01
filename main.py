@@ -56,6 +56,8 @@ async def _hottest(ctx, subreddit = ""):
         url = reddit_func.getHottestPost(subreddit, isNSFW)
     except Exception as errorMessage:
         await ctx.send(errorMessage)
+        return
+
     print(url)
 
     embed = discord.Embed(color=0x00ced1,
@@ -77,6 +79,8 @@ async def _randpost(ctx, subreddit: str):
         url = reddit_func.getRandomPost(subreddit, isNSFW)
     except Exception as errorMessage:
         await ctx.send(errorMessage)
+        return
+        
     print(url)
 
     embed = discord.Embed(color=0x00ced1,
