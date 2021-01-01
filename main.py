@@ -1,6 +1,7 @@
 import requests
 import discord
 import hashlib
+import prawcore
 import random
 import reddit as reddit_func
 import helper_functions as func
@@ -54,6 +55,12 @@ async def _hottest(ctx, subreddit = ""):
 
     try:
         url = reddit_func.getHottestPost(subreddit, isNSFW)
+    except prawcore.exceptions.Redirect:
+        subreddit = reddit_func.searchSub(subreddit, isNSFW)
+        if subreddit is None:
+            await ctx.send("Could not find a subreddit with the specified name.")
+            return
+        url = reddit_func.getHottestPost(subreddit, isNSFW)
     except Exception as errorMessage:
         await ctx.send(errorMessage)
         return
@@ -61,7 +68,8 @@ async def _hottest(ctx, subreddit = ""):
     print("Hottest post: {}".format(url))
 
     embed = discord.Embed(color=0x00ced1,
-                          description="The hottest post at request time from " + subreddit)
+                          description="The hottest post at request time from " + subreddit,
+                          title="URL: " + url)
     embed.set_image(url=url)
     embed.set_author(name="Requested by " + ctx.message.author.name)
     await ctx.send(embed=embed)
@@ -77,17 +85,25 @@ async def _randpost(ctx, subreddit: str):
     isNSFW = ctx.channel.is_nsfw()
     try:
         url = reddit_func.getRandomPost(subreddit, isNSFW)
+    except prawcore.exceptions.Redirect:
+        subreddit = reddit_func.searchSub(subreddit, isNSFW)
+        if subreddit is None:
+            await ctx.send("Could not find a subreddit with the specified name.")
+            return
+        url = reddit_func.getRandomPost(subreddit, isNSFW)
     except Exception as errorMessage:
         await ctx.send(errorMessage)
         return
-
     print("Random post: {}".format(url))
 
     embed = discord.Embed(color=0x00ced1,
-                          description="A random post from the latest content in " + subreddit)
+                          description="A random post from the latest content in " + subreddit,
+                          title="URL: " + url)
+
     embed.set_image(url=url)
     embed.set_author(name="Requested by " + ctx.message.author.name)
     await ctx.send(embed=embed)
+
 @client.command("weather")
 async def _weather(ctx, address=""):
 
@@ -141,15 +157,14 @@ async def on_message(message):
     global nr
     if message.author == client.user:
         return
-    if message.author.id == 369108820313636865:
-        print('test')
-        await message.channel.send(random.choice(bullyMagnet))
+    #if message.author.id == 369108820313636865:
+    #    await message.channel.send(random.choice(bullyMagnet))
 
-    if message.channel.id == 400674062004781056:
-        await message.channel.send('Pai si tu crezi ca esti amuzant?')
+    #if message.channel.id == 400674062004781056:
+    #    await message.channel.send('Pai si tu crezi ca esti amuzant?')
 
-    if f'<@!{241955978466164737}>' in message.content:
-        await message.channel.send('Ce vrei ma cu terminatul ala')
+    #if f'<@!{241955978466164737}>' in message.content:
+    #    await message.channel.send('Ce vrei ma cu terminatul ala')
 
     if 'gusi' in message.content.lower():
         await message.channel.send('Mevic?')
