@@ -2,7 +2,6 @@ import requests
 import discord
 import hashlib
 import prawcore
-import random
 import reddit as reddit_func
 import helper_functions as func
 import movies as mvdb
