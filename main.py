@@ -18,6 +18,19 @@ imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf9
 
 # movie commands
 
+def make_embed(movie_id: str):
+    movie = mv.get_details(movie_id)
+
+    movie_json = json.loads(movie)
+    image_url = "https://image.tmdb.org/t/p/original" + movie_json.get("backdrop_path")
+    print(image_url)
+
+    embed = discord.Embed(color=0x00ced1,
+                          title=movie_json.get("original_title"),
+                          description=movie_json.get("overview"),
+                          image= image_url)
+
+    return embed
 @client.command("movies")
 async def _movies(ctx, *args):
     operation = args[0]
@@ -32,14 +45,11 @@ async def _movies(ctx, *args):
 
         if response["total_results"] == 0:
             await ctx.send("No movies found.:confused:")
-        elif response["total_results"] == 1:
-            movie = mv.get_details(results[0]["id"])
-            await ctx.send(movie)
+        else: # response["total_results"] == 1
+            movie_id = results[0]["id"]
 
-
-        else:
-            await ctx.send(json.dump(results))
-
+            embed = make_embed(movie_id)
+            await ctx.send(embed=embed)
     else:
         await ctx.send("Operation invalid.")
 
@@ -66,7 +76,7 @@ async def _hottest(ctx, subreddit = ""):
                           description="The hottest post at request time from " + subreddit)
     embed.set_image(url=url)
     embed.set_author(name="Requested by " + ctx.message.author.name)
-    await ctx.send(embed=embed)
+
 
 @client.command("randpost")
 async def _randpost(ctx, subreddit: str):
