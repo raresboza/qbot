@@ -58,7 +58,7 @@ async def _hottest(ctx, subreddit = ""):
         await ctx.send(errorMessage)
         return
 
-    print(url)
+    print("Hottest post: {}".format(url))
 
     embed = discord.Embed(color=0x00ced1,
                           description="The hottest post at request time from " + subreddit)
@@ -80,8 +80,8 @@ async def _randpost(ctx, subreddit: str):
     except Exception as errorMessage:
         await ctx.send(errorMessage)
         return
-        
-    print(url)
+
+    print("Random post: {}".format(url))
 
     embed = discord.Embed(color=0x00ced1,
                           description="A random post from the latest content in " + subreddit)
