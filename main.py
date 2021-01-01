@@ -4,6 +4,7 @@ import hashlib
 import random
 import reddit as reddit_func
 import helper_functions as func
+import movies as mvdb
 import json
 from discord.ext import commands
 from geopy.geocoders import Nominatim
@@ -15,9 +16,27 @@ bullyMagnet = ['De ce incerci?', 'Ba?','Voi il vedeti pe asta ba @everyone?', 'I
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
 
+# movie commands
+
+@client.command("movies")
+async def _movies(ctx, *args):
+
+    operation = args[0]
+
+
+    if operation == "search":
+        movie_query = " ".join(args[1:])
+
+        r = mv.search_movies(movie_query)
+
+        await ctx.send(r)
+    else:
+        await ctx.send("Operation invalid")
+
+# reddit commands
 @client.command("hottest")
-async def _hottest(ctx, subreddit: str):
-    if len(subreddit.split()) != 1:
+async def _hottest(ctx, subreddit = ""):
+    if subreddit == "":
         await ctx.send("Command should only contain an argument")
         return
 
@@ -81,7 +100,7 @@ async def image(ctx):
         chosen_image = func.get_imgur_url()
         print(chosen_image)
 
-        response = requests.get(chosen_image, stream=True)
+        response = sts.get(chosen_image, stream=True)
         m = hashlib.sha256()
         m.update(response.content)
 
@@ -125,11 +144,14 @@ async def on_message(message):
 config = open("key.config","r")
 discord_key = config.readline().rstrip('\n')
 weather_key = config.readline().rstrip('\n')
+movies_key = config.readline().rstrip('\n')
 config.close()
 
 #run bot
 geolocator = Nominatim(user_agent="discord-bot")
 owm = OWM(weather_key)
 mgr = owm.weather_manager()
+mv = mvdb.moviedb("fa0a7a9b9f7b3f8d38f3bc05b94336cd")
+
 
 client.run(discord_key)
