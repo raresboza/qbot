@@ -6,8 +6,6 @@ class moviedb:
         self.key = api_key
 
     def search_movies(self, search: str):
-
-
         url = "https://api.themoviedb.org/3/search/movie?api_key={}&language=en-US&query={}&page=1&include_adult=false".format(self.key, search)
         url.replace(" ", "%20")
 
@@ -22,8 +20,3 @@ class moviedb:
         response = requests.get(url)
 
         return response.text
-
-if __name__ == "__main__":
-    mv = moviedb("")
-
-    mv.search_movie("Avengers")

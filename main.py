@@ -20,18 +20,26 @@ imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf9
 
 @client.command("movies")
 async def _movies(ctx, *args):
-
     operation = args[0]
-
 
     if operation == "search":
         movie_query = " ".join(args[1:])
 
-        r = mv.search_movies(movie_query)
+        print("--> Searching for movie {}".format(movie_query))
 
-        await ctx.send(r)
+        response = json.loads(mv.search_movies(movie_query))
+        results = response["results"]
+
+        if response["total_results"] == 0:
+            await ctx.send("No movies found.:confused:")
+        elif response["total_results"] == 1:
+            movie = mv.get_details(results[0]["id"])
+            await ctx.send(movie)
+        else:
+            await ctx.send(json.dump(results))
+
     else:
-        await ctx.send("Operation invalid")
+        await ctx.send("Operation invalid.")
 
 # reddit commands
 @client.command("hottest")
@@ -39,6 +47,8 @@ async def _hottest(ctx, subreddit = ""):
     if subreddit == "":
         await ctx.send("Command should only contain an argument")
         return
+
+    print("--> Searching for hottest post on {}".format(subreddit))
 
     isNSFW = ctx.channel.is_nsfw()
 
@@ -56,9 +66,11 @@ async def _hottest(ctx, subreddit = ""):
 
 @client.command("randpost")
 async def _randpost(ctx, subreddit: str):
-    if len(subreddit.split()) != 1:
+    if subreddit == "":
         await ctx.send("Command should only contain an argument")
         return
+
+    print("--> Searching for random post on {}".format(subreddit))
 
     isNSFW = ctx.channel.is_nsfw()
     try:
