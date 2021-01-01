@@ -30,6 +30,7 @@ def make_embed(movie_id: str):
                           description=movie_json.get("overview"))
     embed.set_image(url=image_url)
     return embed
+    
 @client.command("movies")
 async def _movies(ctx, *args):
     operation = args[0]
@@ -113,7 +114,7 @@ async def _randpost(ctx, subreddit: str):
 
     embed.set_image(url=url)
     embed.set_author(name="Requested by " + ctx.message.author.name)
-    
+
     await ctx.send(embed=embed)
 
 @client.command("weather")
