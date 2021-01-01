@@ -22,14 +22,13 @@ def make_embed(movie_id: str):
     movie = mv.get_details(movie_id)
 
     movie_json = json.loads(movie)
-    image_url = "https://image.tmdb.org/t/p/original" + movie_json.get("backdrop_path")
+    image_url = "https://image.tmdb.org/t/p/w500" + movie_json.get("backdrop_path")
     print(image_url)
 
     embed = discord.Embed(color=0x00ced1,
                           title=movie_json.get("original_title"),
-                          description=movie_json.get("overview"),
-                          image= image_url)
-
+                          description=movie_json.get("overview"))
+    embed.set_image(url=image_url)
     return embed
 @client.command("movies")
 async def _movies(ctx, *args):
