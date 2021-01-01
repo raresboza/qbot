@@ -94,8 +94,7 @@ async def _weather(ctx, address=""):
     #geocodingz
     location = geolocator.geocode(address)
 
-    print(location.address)
-    print((location.latitude, location.longitude))
+    print("--> Address {} was found at coordinates {} LAT, {} LON ".format(address, location.latitude, location.longitude))
 
     #open weather map
     url = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={appid}&units=metric"\
@@ -116,7 +115,7 @@ async def image(ctx):
         chosen_image = func.get_imgur_url()
         print(chosen_image)
 
-        response = sts.get(chosen_image, stream=True)
+        response = requests.get(chosen_image, stream=True)
         m = hashlib.sha256()
         m.update(response.content)
 
