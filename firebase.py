@@ -23,6 +23,37 @@ firebaseConfig = {
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 
-#db = firebase.database()
-#auth = firebase.auth()
-#storage = firebase.storage()
+db = firebase.database()
+# auth = firebase.auth()
+# storage = firebase.storage()
+
+dummyMovie = {
+    'Movie_id': 0,
+    'Title': 'Test movie',
+    'Rating': 10.0,
+    'Rating_count': 85
+}
+
+dummyMu = {
+    'Discord_id': -1,
+    'Votes': [{
+        'Vote': 10.0,
+        'Movie_id': 0
+    }]
+}
+
+def vote(Discord_id, Moive_id):
+    #caz in care nu exista filmul -> inseram film (apel de functie)
+
+    #caz in care nu exista discord_id
+
+    #caz in care exista discord_id
+
+    return 0 
+
+def init():
+    db.child("Movies").child("Movie").push(dummyMovie)
+    db.child("Movies").child("MovieUsers").push(dummyMu)
+
+if __name__ == "__main__":
+    init()

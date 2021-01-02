@@ -10,14 +10,13 @@ from discord.ext import commands
 from geopy.geocoders import Nominatim
 from pyowm.owm import OWM
 
-client = commands.Bot(command_prefix = '$')
-bullyMagnet = ['De ce incerci?', 'Ba?','Voi il vedeti pe asta ba @everyone?', 'Iesi acasa!', 'Iesi.', 'Nu te-ai futut cu Andone nu?']
+client = commands.Bot(command_prefix='$')
+bullyMagnet = ['De ce incerci?', 'Ba?', 'Voi il vedeti pe asta ba @everyone?', 'Iesi acasa!', 'Iesi.', 'Nu te-ai futut cu Andone nu?']
 
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
 
 # movie commands
-
 def make_embed(movie_id: str):
     movie = mv.get_details(movie_id)
 
@@ -30,7 +29,7 @@ def make_embed(movie_id: str):
                           description=movie_json.get("overview"))
     embed.set_image(url=image_url)
     return embed
-    
+
 @client.command("movies")
 async def _movies(ctx, *args):
     operation = args[0]
@@ -124,12 +123,12 @@ async def _weather(ctx, *address):
         return
 
     addr = " ".join(address)
-    #geocodingz
+    # geocodingz
     location = geolocator.geocode(addr)
 
     print("--> Address {} was found at coordinates {} LAT, {} LON ".format(addr, location.latitude, location.longitude))
 
-    #open weather map
+    # open weather map
     url = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={appid}&units=metric"\
             .format(lat=location.latitude, lon=location.longitude, appid=weather_key)
 
