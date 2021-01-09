@@ -42,18 +42,21 @@ dummyMu = {
     }]
 }
 
-def vote(Discord_id, Moive_id):
-    #caz in care nu exista filmul -> inseram film (apel de functie)
 
-    #caz in care nu exista discord_id
+def vote(Discord_id, Movie_id):
+    # caz in care nu exista filmul -> inseram film (apel de functie)
 
-    #caz in care exista discord_id
+    # caz in care nu exista discord_id
 
-    return 0 
+    # caz in care exista discord_id
+
+    return 0
+
 
 def init():
     db.child("Movies").child("Movie").push(dummyMovie)
     db.child("Movies").child("MovieUsers").push(dummyMu)
+
 
 if __name__ == "__main__":
     init()

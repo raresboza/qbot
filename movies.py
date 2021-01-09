@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 class moviedb:
     def __init__(self, api_key: str):
         self.key = api_key
@@ -16,7 +17,7 @@ class moviedb:
     def get_details(self, movie_id: int):
         url = "https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US".format(movie_id, self.key)
 
-        print(url)
+        # print(url)
         response = requests.get(url)
 
         return response.text

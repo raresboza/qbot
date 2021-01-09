@@ -11,10 +11,11 @@ from geopy.geocoders import Nominatim
 from pyowm.owm import OWM
 
 client = commands.Bot(command_prefix='$')
-bullyMagnet = ['De ce incerci?', 'Ba?', 'Voi il vedeti pe asta ba @everyone?', 'Iesi acasa!', 'Iesi.', 'Nu te-ai futut cu Andone nu?']
+# bullyMagnet = ['De ce incerci?', 'Ba?', 'Voi il vedeti pe asta ba @everyone?', 'Iesi acasa!', 'Iesi.', 'Nu te-ai futut cu Andone nu?']
 
 imgurNotFound = '9b5936f4006146e4e1e9025b474c02863c0b5614132ad40db4b925a10e8bfbb9'
 imgurSecondError = '9712f09e69148642e9fe1f98d9fbef4eb1a130ec4b29240c04f98333ebf94635'
+
 
 # movie commands
 def make_embed(movie_id: str):
@@ -44,7 +45,7 @@ async def _movies(ctx, *args):
 
         if response["total_results"] == 0:
             await ctx.send("No movies found.:confused:")
-        else: # response["total_results"] == 1
+        else: #response["total_results"] == 1
             movie_id = results[0]["id"]
 
             embed = make_embed(movie_id)
@@ -54,7 +55,7 @@ async def _movies(ctx, *args):
 
 # reddit commands
 @client.command("hottest")
-async def _hottest(ctx, subreddit = ""):
+async def _hottest(ctx, subreddit=""):
     if subreddit == "":
         await ctx.send("Command should only contain an argument")
         return
@@ -84,6 +85,7 @@ async def _hottest(ctx, subreddit = ""):
     embed.set_author(name="Requested by " + ctx.message.author.name)
 
     await ctx.send(embed=embed)
+
 
 @client.command("randpost")
 async def _randpost(ctx, subreddit: str):
@@ -116,6 +118,7 @@ async def _randpost(ctx, subreddit: str):
 
     await ctx.send(embed=embed)
 
+
 @client.command("weather")
 async def _weather(ctx, *address):
     if len(address) == 0:
@@ -130,16 +133,18 @@ async def _weather(ctx, *address):
 
     # open weather map
     url = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={appid}&units=metric"\
-            .format(lat=location.latitude, lon=location.longitude, appid=weather_key)
+        .format(lat=location.latitude, lon=location.longitude, appid=weather_key)
 
     response = requests.get(url)
     data = json.loads(response.text)["current"]
 
-    await ctx.send(func.process_weather_data(data, location)) #de schimbat astfel incat sa nu arate gmt time-ul
+    await ctx.send(func.process_weather_data(data, location)) # de schimbat astfel incat sa nu arate gmt time-ul
+
 
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
+
 
 @client.command()
 async def image(ctx):
@@ -168,32 +173,33 @@ async def image(ctx):
     embed.set_image(url=chosen_image)
     await ctx.send(embed=embed)
 
+
 @client.event
 async def on_message(message):
     global nr
     if message.author == client.user:
         return
-    #if message.author.id == 369108820313636865:
+    # if message.author.id == 369108820313636865:
     #    await message.channel.send(random.choice(bullyMagnet))
 
-    #if message.channel.id == 400674062004781056:
+    # if message.channel.id == 400674062004781056:
     #    await message.channel.send('Pai si tu crezi ca esti amuzant?')
 
-    #if f'<@!{241955978466164737}>' in message.content:
+    # if f'<@!{241955978466164737}>' in message.content:
     #    await message.channel.send('Ce vrei ma cu terminatul ala')
 
     if 'gusi' in message.content.lower():
         await message.channel.send('Mevic?')
     await client.process_commands(message)
 
-#aquire config data
-config = open("key.config","r")
+# aquire config data
+config = open("key.config", "r")
 discord_key = config.readline().rstrip('\n')
 weather_key = config.readline().rstrip('\n')
 movies_key = config.readline().rstrip('\n')
 config.close()
 
-#run bot
+# run bot
 geolocator = Nominatim(user_agent="discord-bot")
 owm = OWM(weather_key)
 mgr = owm.weather_manager()
