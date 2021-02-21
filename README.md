@@ -11,7 +11,7 @@ A work in progress discord bot.
     &emsp; WARNING! The images that are retrieved by this command are totally random, hence we are not responsible for disturbing content.  
     &emsp; Using the command `$image` a random imgur link is generated and verified to be valid, the contents of which are inserted in a embeded message.  
     
-* Movies:
+* Movies:  
     &emsp; Currently in development, the commands intend to provide a way of searching movies, rating them and being able to see what other people thought of the screening.  
     &emsp;Commands:  
     - search: `$movies search <name-of-movie>` using themoviedb API the bot retrieves the closest movie to match the name provided, displaying the name, the description and the poster of the given movie  
