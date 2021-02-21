@@ -1,7 +1,7 @@
 # Qbot
 A work in progress discord bot.
 ## Features
-* Reddit post search: 
+* Reddit post search:  
     &emsp;The current implementation has two commands that work with the reddit API (hottest post and random post). The first command is used to get the hottest thread on a specified subreddit by typing in discord `$hottest <name-of-subreddit>`. Similarly, randpost retrieves a thread from the most popular 500 posts on the specified subreddit. This can be used by calling `$randpost <name-of-subreddit>`.  
     &emsp; This can be exemplified by the following screenshot  
     ![discord](https://i.imgur.com/K6sbmtU.png)  
