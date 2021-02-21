@@ -26,6 +26,7 @@ The following API were used in making this project:
 * [OpenWeather](https://openweathermap.org/api)
 * [TheMovieDB](https://developers.themoviedb.org/)
 * [GeoPy](https://geopy.readthedocs.io/en/stable/)
+* [FireBase](https://firebase.google.com/)
 
 ## Contributors
 * [Rares-Dorian Boza](https://github.com/raresboza)
